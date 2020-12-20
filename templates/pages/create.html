@@ -1,0 +1,25 @@
+{% extends 'layouts/base.html' %}
+
+
+{% block title %}
+  Create page
+{% endblock title %}
+
+
+{% block content %}
+<div class='max-w-sm mx-auto'>
+  <h1 class='text-lg font-bold pb-4'>Create Source</h1>
+
+  {% if error %}
+    <p class='p-2 mb-2 bg-red-100 border border-red-300 text-gray-700'>
+      {{ error }}
+    </p>
+  {% endif %}
+
+  <form method='POST'>
+    <input class='w-full p-2 mb-3 bg-transparent border border-gray-300 outline-none' type='text' name='title' placeholder='title'>
+    <input class='w-full p-2 mb-3 bg-transparent border border-gray-300 outline-none' type='text' name='url' placeholder='URL'>
+    <input class='w-full p-2 border border-gray-300 text-sm font-bold rounded outline-none' type='submit' value='Create'>
+  </form>
+</div>
+{% endblock content %}

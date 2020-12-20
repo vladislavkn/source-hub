@@ -1,0 +1,4 @@
+database.database
+.vscode
+__pychache__
+*.secret*
