@@ -5,9 +5,5 @@ Python Flask application to store internet sources
 ```
 git clone https://github.com/vladislavkn/source-hub.git
 pip install
-python3
->>> from app import db
->>> db.create_all()
->>> exit()
 python3 app.py
 ```
