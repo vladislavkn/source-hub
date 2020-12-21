@@ -81,6 +81,9 @@ def update_source(id):
 
   return redirect(url_for('get_source', id=source.id))
 
+@app.errorhandler(404)
+def error_404(error):
+  return render_template('pages/404.html')
 
 if __name__ == "__main__":
   app.run(debug=True)
