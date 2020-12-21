@@ -79,10 +79,5 @@ def update_source(id):
   return redirect(f'/source/{id}')
 
 
-@app.route('/assets/<path:filename>', methods=['GET'])
-def assets(filename):
-  return send_from_directory('assets', filename)
-
-
 if __name__ == "__main__":
   app.run(debug=True)
