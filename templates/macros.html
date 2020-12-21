@@ -1,0 +1,9 @@
+{% macro render_errors(errors, class) %}
+  {% if errors %}
+    {% for error in errors %}
+      <div class='{{ class }}'>
+        {{ error }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endmacro %}

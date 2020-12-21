@@ -7,11 +7,6 @@
 
 
 {% block content %}
-  {% if error %}
-    <p class='p-2 mb-4 bg-red-100 border border-red-300 text-gray-700'>
-      {{ error }}
-    </p>
-  {% endif %}
   <form class='mb-4' method='post' action='{{ url_for("update_source", id=source.id) }}'>
     <input class='w-full py-2 mb-2 text-2xl font-bold bg-transparent outline-none' type='text' name='title' value='{{ source.title }}' placeholder='Title'>
     <p class='pb-2 text-sm text-gray-600'>{{ source.created_at }}</p>

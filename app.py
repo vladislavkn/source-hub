@@ -36,7 +36,7 @@ def create():
     return render_template('pages/create.html')
 
   if source_form_is_invalid():
-    return render_template('pages/create.html', error='Fileds can not be empty')
+    return render_template('pages/create.html', errors=['Fileds can not be empty'])
 
   try:
     title, url = request.form['title'], request.form['url']
@@ -44,7 +44,7 @@ def create():
     db.session.add(source)
     db.session.commit()
   except:
-    return render_template('pages/create.html', error='Error while saving in database. Try again later')
+    return render_template('pages/create.html', errors=['Error while saving in database. Try again later'])
 
   return redirect(url_for('index'))
 
@@ -62,7 +62,7 @@ def delete_source(id):
     db.session.delete(source)
     db.session.commit()
   except:
-    return render_template('pages/source.html', error='Error while deleting. Try again later', source=source)
+    return render_template('pages/source.html', errors=['Error while deleting. Try again later'], source=source)
   return redirect(url_for('index'))
 
 
@@ -71,13 +71,13 @@ def update_source(id):
   source = Source.query.get_or_404(id)
 
   if source_form_is_invalid():
-    return render_template('pages/source.html', error='Fileds can not be empty', source=source)
+    return render_template('pages/source.html', errors=['Fileds can not be empty'], source=source)
 
   try:
     source.title, source.url = request.form['title'], request.form['url']
     db.session.commit()
   except:
-    return render_template('pages/source.html', error='Error while saving in database. Try again later')
+    return render_template('pages/source.html', errors=['Error while saving in database. Try again later'])
 
   return redirect(url_for('get_source', id=source.id))
 
