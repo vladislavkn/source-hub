@@ -4,17 +4,14 @@
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-  <link rel='stylesheet' href='/static/css/index.css'>
-  <title>
-    {% block title %}{% endblock title %}
-  </title>
+  {% block styles %}{% endblock styles %}
+  <title>{% block title %}{% endblock title %}</title>
 </head>
 <body class='bg-gray-50'>
   {% include 'includes/navbar.html' %}
-
   <div class='py-8 px-4 mx-auto max-w-screen-sm'>
     {% block content %}{% endblock content %}
   </div>
 </body>
-<script src='/static/js/index.js'></script>
+{% block scripts %}{% endblock scripts %}
 </html>

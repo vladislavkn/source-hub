@@ -7,6 +7,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
 class Source(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   title = db.Column(db.String(512), nullable=False)
@@ -21,6 +22,7 @@ def source_form_is_invalid():
   if (not request.form['title'] or not request.form['url']):
     return True
   return False
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -62,6 +64,7 @@ def delete_source(id):
   except:
     return render_template('pages/source.html', error='Error while deleting. Try again later', source=source)
   return redirect('/')
+
 
 @app.route('/source/<int:id>/update', methods=['POST'])
 def update_source(id):
