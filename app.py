@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, request, redirect
+from flask import Flask, render_template, send_from_directory, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -46,7 +46,7 @@ def create():
   except:
     return render_template('pages/create.html', error='Error while saving in database. Try again later')
 
-  return redirect('/')
+  return redirect(url_for('index'))
 
 
 @app.route('/source/<int:id>', methods=['GET'])
@@ -63,7 +63,7 @@ def delete_source(id):
     db.session.commit()
   except:
     return render_template('pages/source.html', error='Error while deleting. Try again later', source=source)
-  return redirect('/')
+  return redirect(url_for('index'))
 
 
 @app.route('/source/<int:id>/update', methods=['POST'])
@@ -79,7 +79,7 @@ def update_source(id):
   except:
     return render_template('pages/source.html', error='Error while saving in database. Try again later')
 
-  return redirect(f'/source/{id}')
+  return redirect(url_for('get_source', id=source.id))
 
 
 if __name__ == "__main__":
