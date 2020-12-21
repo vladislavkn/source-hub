@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, request, redirect
+from flask import Flask, render_template, send_from_directory, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -6,6 +6,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
 
 class Source(db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -22,6 +23,7 @@ def source_form_is_invalid():
     return True
   return False
 
+
 @app.route('/', methods=['GET'])
 def index():
   sources = Source.query.order_by(Source.created_at).all()
@@ -34,7 +36,7 @@ def create():
     return render_template('pages/create.html')
 
   if source_form_is_invalid():
-    return render_template('pages/create.html', error='Fileds can not be empty')
+    return render_template('pages/create.html', errors=['Fileds can not be empty'])
 
   try:
     title, url = request.form['title'], request.form['url']
@@ -42,9 +44,9 @@ def create():
     db.session.add(source)
     db.session.commit()
   except:
-    return render_template('pages/create.html', error='Error while saving in database. Try again later')
+    return render_template('pages/create.html', errors=['Error while saving in database. Try again later'])
 
-  return redirect('/')
+  return redirect(url_for('index'))
 
 
 @app.route('/source/<int:id>', methods=['GET'])
@@ -60,29 +62,28 @@ def delete_source(id):
     db.session.delete(source)
     db.session.commit()
   except:
-    return render_template('pages/source.html', error='Error while deleting. Try again later', source=source)
-  return redirect('/')
+    return render_template('pages/source.html', errors=['Error while deleting. Try again later'], source=source)
+  return redirect(url_for('index'))
+
 
 @app.route('/source/<int:id>/update', methods=['POST'])
 def update_source(id):
   source = Source.query.get_or_404(id)
 
   if source_form_is_invalid():
-    return render_template('pages/source.html', error='Fileds can not be empty', source=source)
+    return render_template('pages/source.html', errors=['Fileds can not be empty'], source=source)
 
   try:
     source.title, source.url = request.form['title'], request.form['url']
     db.session.commit()
   except:
-    return render_template('pages/source.html', error='Error while saving in database. Try again later')
+    return render_template('pages/source.html', errors=['Error while saving in database. Try again later'])
 
-  return redirect(f'/source/{id}')
+  return redirect(url_for('get_source', id=source.id))
 
-
-@app.route('/assets/<path:filename>', methods=['GET'])
-def assets(filename):
-  return send_from_directory('assets', filename)
-
+@app.errorhandler(404)
+def error_404(error):
+  return render_template('pages/404.html')
 
 if __name__ == "__main__":
   app.run(debug=True)

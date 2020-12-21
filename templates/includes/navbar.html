@@ -1,11 +1,11 @@
 <nav class='flex border-b border-gray-300'>
-  <a class='py-4 px-8 text-2xl font-bold font-display border-r border-gray-300' href='/'>HUB</a>
+  <a class='py-4 px-8 text-2xl font-bold font-display border-r border-gray-300' href='{{ url_for("index") }}'>HUB</a>
   <ul class='flex items-center'>
     <li class='p-4'>
-      <a href='/'>Home page</a>
+      <a href='{{ url_for("index") }}'>Home page</a>
     </li>
     <li class='p-4'>
-      <a href='/create'>Create</a>
+      <a href='{{ url_for("create") }}'>Create</a>
     </li>
   </ul>
 </nav>

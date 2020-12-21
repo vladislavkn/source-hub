@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html' %}
+
+
+{% block title %}
+  Not found: error 404
+{% endblock title %}
+
+
+{% block content %}
+<p class='text-center text-lg'>
+  You are in the wrong area.<br> <a class='text-blue-500' href='{{ url_for("index") }}'>Come back home</a>, baby.
+</p>
+{% endblock content %}
+
