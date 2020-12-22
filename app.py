@@ -49,10 +49,19 @@ def create():
 
   return render_template('pages/create.html', form=form)
 
-@app.route('/source/<int:id>', methods=['GET'])
-def get_source(id):
+@app.route('/source/<int:id>', methods=['GET', 'POST'])
+def source_edit(id):
   source = Source.query.get_or_404(id)
-  return render_template('pages/source.html', source=source)
+  form = SourceForm(obj=source)
+
+  if form.validate_on_submit():
+    try:
+      source.title, source.url = form.title.data, form.url.data
+      db.session.commit()
+    except:
+      return render_template('pages/source.html', errors=['Error while saving in database. Try again later'], form=form, source=source)
+
+  return render_template('pages/source-edit.html', source=source, form=form)
 
 
 @app.route('/source/<int:id>/delete', methods=['POST'])
@@ -65,21 +74,6 @@ def delete_source(id):
     return render_template('pages/source.html', errors=['Error while deleting. Try again later'], source=source)
   return redirect(url_for('index'))
 
-
-@app.route('/source/<int:id>/update', methods=['POST'])
-def update_source(id):
-  source = Source.query.get_or_404(id)
-
-  if source_form_is_invalid():
-    return render_template('pages/source.html', errors=['Fileds can not be empty'], source=source)
-
-  try:
-    source.title, source.url = request.form['title'], request.form['url']
-    db.session.commit()
-  except:
-    return render_template('pages/source.html', errors=['Error while saving in database. Try again later'])
-
-  return redirect(url_for('get_source', id=source.id))
 
 @app.errorhandler(404)
 def error_404(error):
