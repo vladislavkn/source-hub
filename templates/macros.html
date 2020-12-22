@@ -9,9 +9,11 @@
 {% endmacro %}
 
 {% macro render_input_errors(errors) %}
-  <ul class='pl-2 mb-2 list-disc list-inside'>
-    {% for error in errors %}
-      <li class='pb-1 text-sm text-red-500'>{{ error }}</li>
-    {% endfor %}
-  </ul>
+  {% if errors %}
+    <ul class='pl-2 mb-2 list-disc list-inside'>
+      {% for error in errors %}
+        <li class='pb-1 text-sm text-red-500'>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 {% endmacro %}
