@@ -1,10 +1,13 @@
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from forms import SourceForm
+from secret import SECRET_KEY
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = SECRET_KEY
 db = SQLAlchemy(app)
 
 
@@ -32,22 +35,19 @@ def index():
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
-  if request.method == 'GET':
-    return render_template('pages/create.html')
+  form = SourceForm()
+  if form.validate_on_submit():
+    try:
+      title, url = form.title.data, form.url.data
+      source = Source(title=title, url=url)
+      db.session.add(source)
+      db.session.commit()
+    except:
+      return render_template('pages/create.html', errors=['Error while saving in database. Try again later'], form=form)
 
-  if source_form_is_invalid():
-    return render_template('pages/create.html', errors=['Fileds can not be empty'])
+    return redirect(url_for('index'))
 
-  try:
-    title, url = request.form['title'], request.form['url']
-    source = Source(title=title, url=url)
-    db.session.add(source)
-    db.session.commit()
-  except:
-    return render_template('pages/create.html', errors=['Error while saving in database. Try again later'])
-
-  return redirect(url_for('index'))
-
+  return render_template('pages/create.html', form=form)
 
 @app.route('/source/<int:id>', methods=['GET'])
 def get_source(id):

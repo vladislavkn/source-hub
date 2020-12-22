@@ -12,9 +12,9 @@
     <p class='pb-2 text-sm text-gray-600'>{{ source.created_at }}</p>
     <input class='w-full py-2 mb-2 text-lg bg-transparent outline-none' type='text' name='url' value='{{ source.url }}' placeholder='URL'>
     <a class='py-2 px-4 border border-gray-300 bg-gray-100 text-sm font-bold rounded' href='{{ source.url }}' target='_blank' rel="nofollow noopener">Open source url</a>
-    <input class='py-2 px-4 border border-gray-300 bg-gray-100 text-sm font-bold rounded outline-none' type='submit' value='Save'>
+    <input class='py-2 px-4 border border-gray-300 bg-gray-100 text-sm font-bold rounded outline-none cursor-pointer' type='submit' value='Save'>
   </form>
   <form class='border-t border-gray-300' method='post' action='{{ url_for("delete_source", id=source.id) }}'>
-    <input class='py-2 text-red-600 text-sm bg-transparent outline-none' type='submit' value='Delete source?'>
+    <input class='py-2 text-red-600 text-sm bg-transparent outline-none cursor-pointer' type='submit' value='Delete source?'>
   </form>
 {% endblock content %}

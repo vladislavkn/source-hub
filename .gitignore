@@ -1,5 +1,5 @@
 .vscode
 __pycache__
-*.secret*
+secret.py
 venv
 database.db
