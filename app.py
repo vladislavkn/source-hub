@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, request, redirect, url_for
+from flask import Flask, render_template, send_from_directory, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from forms import SourceForm
@@ -10,6 +10,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = SECRET_KEY
 db = SQLAlchemy(app)
 
+def redirect_back(default='index'):
+  destination = request.args.get('next') or request.referrer or url_for(default)
+
+  return redirect(destination)
 
 class Source(db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -37,9 +41,10 @@ def create():
       db.session.add(source)
       db.session.commit()
     except:
-      return render_template('pages/create.html', errors=['Error while saving in database. Try again later'], form=form)
-
-    return redirect(url_for('index'))
+      flash('Error while saving in database. Try again later', 'error')
+    else:
+      flash("Source created", "success")
+      return redirect(url_for('index'))
 
   return render_template('pages/create.html', form=form)
 
@@ -53,7 +58,9 @@ def source_edit(id):
       source.title, source.url = form.title.data, form.url.data
       db.session.commit()
     except:
-      return render_template('pages/source.html', errors=['Error while saving in database. Try again later'], form=form, source=source)
+      flash('Error while saving in database. Try again later', 'error')
+    else:
+      flash("Source saved", "success")
 
   return render_template('pages/source-edit.html', source=source, form=form)
 
@@ -65,7 +72,10 @@ def delete_source(id):
     db.session.delete(source)
     db.session.commit()
   except:
-    return render_template('pages/source.html', errors=['Error while deleting. Try again later'], source=source)
+    flash('Error while deleting. Try again later', 'error')
+    return redirect_back()
+
+  flash("Source deleted", "success")
   return redirect(url_for('index'))
 
 

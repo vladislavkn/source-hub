@@ -1,8 +1,8 @@
-{% macro render_errors(errors, class) %}
-  {% if errors %}
-    {% for error in errors %}
-      <div class='{{ class }}'>
-        {{ error }}
+{% macro render_messages(messages, success_class, error_class) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class='{{ success_class if category == "success" else error_class }}'>
+        {{ message }}
       </div>
     {% endfor %}
   {% endif %}

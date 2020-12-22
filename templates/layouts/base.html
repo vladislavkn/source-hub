@@ -9,8 +9,8 @@
 </head>
 <body class='bg-gray-50'>
   {% include 'includes/navbar.html' %}
-  {% from 'macros.html' import render_errors %}
-  {{ render_errors(errors, 'p-4 text-center bg-red-100 border-b border-red-300') }}
+  {% from 'macros.html' import render_messages %}
+  {{ render_messages(get_flashed_messages(True), 'p-2 text-center bg-blue-100', 'p-2 text-center bg-red-100') }}
   <div class='py-8 px-4 mx-auto max-w-screen-sm'>
     {% block content %}{% endblock content %}
   </div>
