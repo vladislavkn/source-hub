@@ -1,4 +1,5 @@
-database.db
 .vscode
 __pychache__/
 *.secret*
+env
+database.db
