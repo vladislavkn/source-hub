@@ -1,4 +1,6 @@
-database.db
 .vscode
-__pychache__/
-*.secret*
+__pycache__
+secret.py
+venv
+database.db
+

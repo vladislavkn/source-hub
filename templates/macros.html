@@ -1,9 +1,19 @@
-{% macro render_errors(errors, class) %}
-  {% if errors %}
-    {% for error in errors %}
-      <div class='{{ class }}'>
-        {{ error }}
+{% macro render_messages(messages, success_class, error_class) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class='{{ success_class if category == "success" else error_class }}'>
+        {{ message }}
       </div>
     {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{% macro render_input_errors(errors) %}
+  {% if errors %}
+    <ul class='pl-2 mb-2 list-disc list-inside'>
+      {% for error in errors %}
+        <li class='pb-1 text-sm text-red-500'>{{ error }}</li>
+      {% endfor %}
+    </ul>
   {% endif %}
 {% endmacro %}
