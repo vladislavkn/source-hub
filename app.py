@@ -21,12 +21,6 @@ class Source(db.Model):
     return '<Source %r>' % self.id
 
 
-def source_form_is_invalid():
-  if (not request.form['title'] or not request.form['url']):
-    return True
-  return False
-
-
 @app.route('/', methods=['GET'])
 def index():
   sources = Source.query.order_by(Source.created_at).all()
