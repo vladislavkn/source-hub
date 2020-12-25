@@ -2,12 +2,12 @@ from flask import Flask, render_template, send_from_directory, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from forms import SourceForm
-from secret import SECRET_KEY
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'secret_key_for_development_mode')
 db = SQLAlchemy(app)
 
 def redirect_back(default='index'):
