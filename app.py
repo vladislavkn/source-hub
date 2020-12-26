@@ -74,8 +74,27 @@ def login():
     else:
       flash("Invalid username or password", 'error')
 
-  return render_template('pages/login.html', form=form)
+  return render_template('pages/login.html', form=form, page_title='Login')
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+  if current_user.is_authenticated:
+	  return redirect(url_for('profile'))
+
+  form = UserForm()
+  if form.validate_on_submit():
+    try:
+      user = User(name=form.name.data)
+      user.set_password(form.password.data)
+      db.session.add(user)
+      db.session.commit()
+      login_user(user, remember=form.remember.data)
+    except:
+      flash("An error occured", 'error')
+    else:
+      return redirect(url_for('index'))
+
+  return render_template('pages/login.html', form=form, page_title='Register')
 
 @app.route('/logout', methods=['POST'])
 @login_required

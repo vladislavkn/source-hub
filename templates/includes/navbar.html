@@ -12,6 +12,8 @@
         <a href='{{ url_for("user", id=current_user.id) }}'>Logged in as {{ current_user.name }}</a>
       {% else %}
         <a href='{{ url_for("login") }}'>login</a>
+        or
+        <a href='{{ url_for("register") }}'>Register</a>
       {% endif %}
     </li>
   </ul>
