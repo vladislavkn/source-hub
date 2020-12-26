@@ -15,11 +15,23 @@ def redirect_back(default='index'):
 
   return redirect(destination)
 
+class User(db.model):
+  __tablename__ = 'users'
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(512), nullable=False, unique=True)
+  password_hash = db.Column(db.String(512), nullable=False)
+  sources = db.relationship('Source', backref='author')
+  created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+  def __repr__(self):
+    return f"<User {self.id}:{self.name}>"
+
 class Source(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   title = db.Column(db.String(512), nullable=False)
   url = db.Column(db.Unicode(512), nullable=False)
   created_at = db.Column(db.DateTime, default=datetime.utcnow)
+  author_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
 
   def __repr__(self):
     return '<Source %r>' % self.id
