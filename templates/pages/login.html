@@ -1,9 +1,9 @@
-{% extends 'layouts/base.html' %}
+{% extends 'base.html' %}
 {% from 'macros.html' import render_input_errors %}
 
 
 {% block title %}
-  Create page
+  Login
 {% endblock title %}
 
 
@@ -12,11 +12,11 @@
   <h1 class='text-lg font-bold pb-4'>Create Source</h1>
   <form method='POST'>
     {{ form.csrf_token() }}
-    {{ form.title(class_='w-full p-2 mb-2 bg-transparent border border-gray-300 outline-none') }}
-    {{ render_input_errors(form.title.errors) }}
+    {{ form.name(class_='w-full p-2 mb-2 bg-transparent border border-gray-300 outline-none') }}
+    {{ render_input_errors(form.name.errors) }}
 
-    {{ form.url(class_='w-full p-2 mb-3 bg-transparent border border-gray-300 outline-none') }}
-    {{ render_input_errors(form.url.errors) }}
+    {{ form.password(class_='w-full p-2 mb-3 bg-transparent border border-gray-300 outline-none') }}
+    {{ render_input_errors(form.password.errors) }}
 
     {{ form.submit(class_='w-full p-2 border border-gray-300 text-sm font-bold rounded outline-none') }}
   </form>
