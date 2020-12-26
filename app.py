@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from forms import SourceForm, UserForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, login_user
+from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 import os
 
 app = Flask(__name__)
@@ -69,6 +69,20 @@ def login():
       flash("Invalid username or password", 'error')
 
   return render_template('pages/login.html', form=form)
+
+
+@app.route('/logout', methods=['POST'])
+@login_required
+def logout():
+  logout_user()
+  flash("You have been logged out.", 'success')
+  return redirect(url_for('index'))
+
+
+@app.route('/profile')
+@login_required
+def profile():
+  return render_template('pages/profile.html', user=current_user)
 
 
 @app.route('/create', methods=['GET', 'POST'])

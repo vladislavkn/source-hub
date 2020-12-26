@@ -17,3 +17,17 @@
     </ul>
   {% endif %}
 {% endmacro %}
+
+{% macro render_sources(sources) %}
+  {% if sources %}
+    {% for source in sources %}
+      <div class='px-4 py-2 mb-2 border border-gray-300 rounded hover:bg-gray-100'>
+        <h6 class='text-lg font-bold'>{{ source.title }}</h6>
+        <p class='pb-3 text-sm text-gray-600'>{{ source.created_at.date() }}</p>
+        <a class='text-blue-500' href='{{ url_for("source_edit", id=source.id) }}'>View source</a>
+      </div>
+    {% endfor %}
+  {% else %}
+    No sources are provided.
+  {% endif %}
+{% endmacro %}
