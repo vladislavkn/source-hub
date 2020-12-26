@@ -1,9 +1,9 @@
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from forms import SourceForm
+from forms import SourceForm, UserForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin
+from flask_login import LoginManager, UserMixin, login_user
 import os
 
 app = Flask(__name__)
@@ -55,6 +55,19 @@ class Source(db.Model):
 def index():
   sources = Source.query.order_by(Source.created_at).all()
   return render_template('pages/index.html', sources=sources)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+  form = UserForm()
+  if form.validate_on_submit():
+    user = db.session.query(User).filter(User.name == form.name.data).first()
+    if user and user.check_password(form.password.data):
+      login_user(user, remember=form.remember.data)
+      return redirect(url_for('index'))
+    else:
+      flash("Invalid username or password", 'error')
+
+  return render_template('pages/login.html', form=form)
 
 
 @app.route('/create', methods=['GET', 'POST'])
