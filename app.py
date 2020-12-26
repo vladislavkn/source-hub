@@ -2,6 +2,7 @@ from flask import Flask, render_template, send_from_directory, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from forms import SourceForm
+from werkzeug.security import generate_password_hash,  check_password_hash
 import os
 
 app = Flask(__name__)
@@ -22,6 +23,12 @@ class User(db.Model):
   password_hash = db.Column(db.String(512), nullable=False)
   sources = db.relationship('Source', backref='author')
   created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+  def set_password(self, password):
+	  self.password_hash = generate_password_hash(password)
+
+  def check_password(self,  password):
+	  return check_password_hash(self.password_hash, password)
 
   def __repr__(self):
     return f'<User {self.id}:{self.name}>'
