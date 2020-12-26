@@ -60,7 +60,7 @@ def index():
 def login():
   form = UserForm()
   if form.validate_on_submit():
-    user = db.session.query(User).filter(User.name == form.name.data).first()
+    user = User.query.filter(User.name == form.name.data).first()
     if user and user.check_password(form.password.data):
       login_user(user, remember=form.remember.data)
       return redirect(url_for('index'))
