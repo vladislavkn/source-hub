@@ -85,7 +85,7 @@ def logout():
 @app.route('/profile')
 @login_required
 def profile():
-  return render_template('pages/profile.html', user=current_user)
+  return render_template('pages/profile.html')
 
 
 @app.route('/create', methods=['GET', 'POST'])
