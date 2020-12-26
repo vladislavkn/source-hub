@@ -24,9 +24,10 @@ class User(db.model):
   created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
   def __repr__(self):
-    return f"<User {self.id}:{self.name}>"
+    return f'<User {self.id}:{self.name}>'
 
 class Source(db.Model):
+  __tablename__ = 'sources'
   id = db.Column(db.Integer, primary_key=True)
   title = db.Column(db.String(512), nullable=False)
   url = db.Column(db.Unicode(512), nullable=False)
@@ -34,7 +35,7 @@ class Source(db.Model):
   author_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
 
   def __repr__(self):
-    return '<Source %r>' % self.id
+    return f'<Source {self.id}>'
 
 
 @app.route('/', methods=['GET'])
