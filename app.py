@@ -109,6 +109,9 @@ def create():
 @app.route('/source/<int:id>', methods=['GET', 'POST'])
 def source_edit(id):
   source = Source.query.get_or_404(id)
+  if current_user.is_anonymous or not current_user.id == source.author_id:
+    return render_template('pages/source_detail.html', source=source)
+
   form = SourceForm(obj=source)
 
   if form.validate_on_submit():
