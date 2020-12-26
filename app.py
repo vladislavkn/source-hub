@@ -48,6 +48,9 @@ class Source(db.Model):
   created_at = db.Column(db.DateTime, default=datetime.utcnow)
   author_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
 
+  def is_author(self, user):
+    return user.is_authenticated and user.id == self.author_id
+
   def __repr__(self):
     return f'<Source {self.id}>'
 
@@ -109,7 +112,7 @@ def create():
 @app.route('/source/<int:id>', methods=['GET', 'POST'])
 def source_edit(id):
   source = Source.query.get_or_404(id)
-  if current_user.is_anonymous or not current_user.id == source.author_id:
+  if not source.is_author(current_user):
     return render_template('pages/source_detail.html', source=source)
 
   form = SourceForm(obj=source)
@@ -129,6 +132,10 @@ def source_edit(id):
 @app.route('/source/<int:id>/delete', methods=['POST'])
 def delete_source(id):
   source = Source.query.get_or_404(id)
+  if not source.is_author(current_user):
+    flash("You can not delete this source", "error")
+    return redirect_back()
+
   try:
     db.session.delete(source)
     db.session.commit()
