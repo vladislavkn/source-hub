@@ -1,5 +1,5 @@
 {% extends 'layouts/base.html' %}
-{% from 'macros.html' import render_input_errors %}
+{% from 'macros.html' import render_input_errors, render_source_info %}
 
 
 {% block title %}
@@ -14,7 +14,7 @@
     {{ form.title(class_='w-full py-2 mb-2 text-2xl font-bold bg-transparent outline-none') }}
     {{ render_input_errors(form.title.errors) }}
 
-    <p class='pb-2 text-sm text-gray-600'>Created at {{ source.created_at.date() }} by {{ source.author.name }}</p>
+    {{ render_source_info(source) }}
 
     {{ form.url(class_='w-full py-2 mb-2 text-lg bg-transparent outline-none') }}
     {{ render_input_errors(form.url.errors) }}

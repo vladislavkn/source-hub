@@ -85,10 +85,10 @@ def logout():
   return redirect(url_for('index'))
 
 
-@app.route('/profile')
-@login_required
-def profile():
-  return render_template('pages/profile.html')
+@app.route('/user/<int:id>')
+def user(id):
+  user = User.query.get_or_404(id)
+  return render_template('pages/user.html', user=user)
 
 
 @app.route('/create', methods=['GET', 'POST'])
