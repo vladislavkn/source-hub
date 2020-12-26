@@ -89,12 +89,13 @@ def profile():
 
 
 @app.route('/create', methods=['GET', 'POST'])
+@login_required
 def create():
   form = SourceForm()
   if form.validate_on_submit():
     try:
       title, url = form.title.data, form.url.data
-      source = Source(title=title, url=url)
+      source = Source(title=title, url=url, author=current_user)
       db.session.add(source)
       db.session.commit()
     except:
