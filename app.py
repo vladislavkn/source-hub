@@ -15,7 +15,7 @@ def redirect_back(default='index'):
 
   return redirect(destination)
 
-class User(db.model):
+class User(db.Model):
   __tablename__ = 'users'
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(512), nullable=False, unique=True)
