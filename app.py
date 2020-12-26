@@ -2,7 +2,8 @@ from flask import Flask, render_template, send_from_directory, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from forms import SourceForm
-from werkzeug.security import generate_password_hash,  check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, UserMixin
 import os
 
 app = Flask(__name__)
@@ -10,13 +11,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'secret_key_for_development_mode')
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
 
 def redirect_back(default='index'):
   destination = request.args.get('next') or request.referrer or url_for(default)
 
   return redirect(destination)
 
-class User(db.Model):
+@login_manager.user_loader
+def load_user(user_id):
+  return db.session.query(User).get(user_id)
+
+class User(db.Model, UserMixin):
   __tablename__ = 'users'
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(512), nullable=False, unique=True)
