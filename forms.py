@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 
 class SourceForm(FlaskForm):
@@ -10,4 +10,5 @@ class SourceForm(FlaskForm):
 class UserForm(FlaskForm):
     name = StringField('Name: ', validators=[DataRequired()], render_kw={'placeholder': 'Name'})
     password = StringField('Password: ', validators=[DataRequired()], render_kw={'placeholder': 'Password'})
+    remember = BooleanField("Remember Me")
     submit = SubmitField('Submit')
