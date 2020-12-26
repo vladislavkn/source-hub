@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html' %}
+{% from 'macros.html' import render_source_info %}
+
+
+{% block title %}
+  Source: {{ source.title }}
+{% endblock title %}
+
+{% block content %}
+  <h1 class='pb-2 text-2xl font-bold'>{{ source.title }}</h1>
+  {{ render_source_info(source) }}
+  <p class='mb-2 text-lg'>URL: <a class='underline' href='{{ source.url }}' target='_blank' rel="nofollow noopener">{{ source.url }}</a></p>
+{% endblock content %}

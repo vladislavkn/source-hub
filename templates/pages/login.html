@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+{% from 'macros.html' import render_input_errors %}
+
+
+{% block title %}
+  {{ page_title if page_title else 'Login'}}
+{% endblock title %}
+
+
+{% block content %}
+<div class='max-w-sm mx-auto'>
+  <h1 class='text-lg font-bold pb-4'>{{ page_title if page_title else 'Login'}}</h1>
+  <form method='POST'>
+    {{ form.csrf_token() }}
+    {{ form.name(class_='w-full p-2 mb-2 bg-transparent border border-gray-300 outline-none') }}
+    {{ render_input_errors(form.name.errors) }}
+
+    {{ form.password(class_='w-full p-2 mb-2 bg-transparent border border-gray-300 outline-none') }}
+    {{ render_input_errors(form.password.errors) }}
+
+    <div class='mb-3 flex items-center'>
+      {{ form.remember.label(class_='mr-2') }}
+      {{ form.remember() }}
+    </div>
+
+    {{ form.submit(class_='w-full p-2 border border-gray-300 text-sm font-bold rounded outline-none') }}
+  </form>
+</div>
+{% endblock content %}
